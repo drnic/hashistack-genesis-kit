@@ -1,0 +1,11 @@
+---
+# Contains the configuration for base hashistack kit.
+instance_groups: {}
+properties: {}
+
+releases:
+- name: hashistack
+  version:
+  sha1:
+  url:
+

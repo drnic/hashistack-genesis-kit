@@ -1,0 +1,27 @@
+---
+name: hashistack
+author: bodymindarts <bodymindarts@online.de>
+homepage: https://github.com/cloudfoundry-community/hashistack-boshrelease
+github: https://github.com/genesis-community/hashistack-genesis-kit
+
+subkits:
+- prompt: Do you want to use subkit 'vault'?
+  subkit: vault
+- prompt: Do you want to use subkit 'nomad'?
+  subkit: nomad
+
+params:
+  base: {}
+  vault: {}
+  nomad: {}
+
+credentials:
+  base: {}
+  vault: {}
+  nomad: {}
+
+certificates:
+  base: {}
+  vault: {}
+  nomad: {}
+
