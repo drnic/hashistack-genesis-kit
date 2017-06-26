@@ -46,15 +46,15 @@ certificates:
       servers:
         valid_for: 10y
         names:
-          - consul_peer
-          - 127.0.0.1
+        - consul_peer
+        - 127.0.0.1
       agent:
         valid_for: 10y
         names:
-          - consul_agent
-          - 127.0.0.1
+        - consul_agent
+        - 127.0.0.1
       vault:
         valid_for: 10y
         names:
-          - vault.service.consul
-          - 127.0.0.1
+        - vault.service.consul
+        - 127.0.0.1
