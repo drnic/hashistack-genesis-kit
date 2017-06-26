@@ -16,11 +16,20 @@ instance_groups:
   properties:
     consul:
       server: false
+      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+      ssl_cert: (( vault meta.vault "/consul/certs/agent:certificate" ))
+      ssl_key: (( vault meta.vault "/consul/certs/agent:key" ))
 
 properties:
   vault:
     storage:
       use_consul: true
+      consul:
+        tls:
+          ca_certificate: (( vault meta.vault "/consul/certs/ca:certificate" ))
+          certificate: (( vault meta.vault "/consul/certs/vault:certificate" ))
+          key: (( vault meta.vault "/consul/certs/vault:key" ))
+
     update:
       step_down_token: (( grab params.vault_step_down_token ))
       unseal_keys: (( grab params.vault_unseal_keys ))
@@ -28,6 +37,6 @@ properties:
 releases:
 - (( append ))
 - name: vault
-  version: 0.5.0
-  url: https://bosh.io/d/github.com/cloudfoundry-community/vault-boshrelease?v=0.5.0
-  sha1: faa930d1692b53f5a46f7af187bfae36ba0bae8e
+  version: 0.6.0
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/vault-boshrelease?v=0.6.0"
+  sha1: 67a1a46f95c73a25ab3590fdaf244e3b29835b83

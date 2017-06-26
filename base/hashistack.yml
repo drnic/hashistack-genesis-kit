@@ -7,6 +7,11 @@ instance_groups:
       consul_servers: { as: consul }
     consumes:
       consul_servers: { from: consul }
+  properties:
+    consul:
+      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+      ssl_cert: (( vault meta.vault "/consul/certs/servers:certificate" ))
+      ssl_key: (( vault meta.vault "/consul/certs/servers:key" ))
 
   instances: 3
   azs: (( grab params.availability_zones ))
@@ -29,15 +34,12 @@ update:
 properties:
   consul:
     leave_on_terminate: true
-    ssl_ca: (( vault meta.vault "/certs/ca:certificate" ))
-    ssl_cert: (( vault meta.vault "/certs/consul:certificate" ))
-    ssl_key: (( vault meta.vault "/certs/consul:key" ))
 
 releases:
 - name: consul
-  version: 22.1.0
-  url: https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=22.1.0
-  sha1: 80010f50b48eff61a7823b3db99a7eba3ced9908
+  version: 23.0.0
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=23.0.0"
+  sha1: 7ae648b284c92140b6aea44d0098b2e3ca3e5aa2
 
 stemcells:
 - os: (( grab params.stemcell_os ))
