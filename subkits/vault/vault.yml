@@ -29,7 +29,6 @@ properties:
           ca_certificate: (( vault meta.vault "/consul/certs/ca:certificate" ))
           certificate: (( vault meta.vault "/consul/certs/vault:certificate" ))
           key: (( vault meta.vault "/consul/certs/vault:key" ))
-
     update:
       step_down_token: (( grab params.vault_step_down_token ))
       unseal_keys: (( grab params.vault_unseal_keys ))
