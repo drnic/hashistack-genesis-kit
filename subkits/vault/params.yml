@@ -1,2 +1,6 @@
 ---
-params: {}
+params:
+  vault_vm_type: small
+
+  vault_step_down_token: ""
+  vault_unseal_keys: []

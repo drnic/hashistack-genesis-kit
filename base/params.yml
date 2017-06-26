@@ -1,3 +1,10 @@
 ---
-# Contains the defaults for the parameters needed for the base hashistack kit.
-params: {}
+params:
+  hashistack_network:   hashistack-network
+  consul_disk_pool: server
+  consul_vm_type:   small
+
+  availability_zones: [z1, z2, z3]
+
+  stemcell_os: ubuntu-trusty
+  stemcell_version: latest

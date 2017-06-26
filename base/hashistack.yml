@@ -1,11 +1,45 @@
----
-# Contains the configuration for base hashistack kit.
-instance_groups: {}
-properties: {}
+instance_groups:
+- name: servers
+  jobs:
+  - release: consul
+    name: consul
+    provides:
+      consul_servers: { as: consul }
+    consumes:
+      consul_servers: { from: consul }
+
+  instances: 3
+  azs: (( grab params.availability_zones ))
+  persistent_disk_pool: (( grab params.consul_disk_pool ))
+  vm_type: (( grab params.consul_vm_type ))
+  stemcell: default
+  networks:
+  - name: (( grab params.hashistack_network ))
+
+meta:
+  vault: (( concat "secret/" params.vault ))
+
+update:
+  serial: true
+  canaries: 1
+  canary_watch_time: 30000-120000
+  max_in_flight: 1
+  update_watch_time: 30000-120000
+
+properties:
+  consul:
+    leave_on_terminate: true
+    ssl_ca: (( vault meta.vault "/certs/ca:certificate" ))
+    ssl_cert: (( vault meta.vault "/certs/consul:certificate" ))
+    ssl_key: (( vault meta.vault "/certs/consul:key" ))
 
 releases:
-- name: hashistack
-  version:
-  sha1:
-  url:
+- name: consul
+  version: 22.1.0
+  url: https://github.com/cloudfoundry-community/consul-boshrelease/releases/download/v22.1.0/consul-22.1.0.tgz
+  sha1: 80010f50b48eff61a7823b3db99a7eba3ced9908
 
+stemcells:
+- os: (( grab params.stemcell_os ))
+  version: (( grab params.stemcell_version ))
+  alias: default

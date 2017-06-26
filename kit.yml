@@ -1,27 +1,50 @@
 ---
 name: hashistack
-author: bodymindarts <bodymindarts@online.de>
-homepage: https://github.com/cloudfoundry-community/hashistack-boshrelease
+author: Justin Carter <justin@starkandwayne.com>
 github: https://github.com/genesis-community/hashistack-genesis-kit
+homepage: https://github.com/genesis-community/hashistack-genesis-kit
 
 subkits:
 - prompt: Do you want to use subkit 'vault'?
   subkit: vault
-- prompt: Do you want to use subkit 'nomad'?
-  subkit: nomad
 
 params:
-  base: {}
-  vault: {}
-  nomad: {}
+  base:
+  - description: The name of the BOSH network to deploy to
+    param: hashistack_network
+  - description: The name of the BOSH disk pool to give Consul servers
+    param: consul_disk_pool
+  - description: The name of the BOSH VM type for the Consul servers
+    param: consul_vm_type
+
+  vault:
+  - description: The name of the BOSH VM type for Vault to use
+    param: vault_vm_type
+  - description: |
+      For zero-downtime updates provide a token with the policy
+      path "sys/step-down" {
+        capabilities = ["update", "sudo"]
+      }
+      This will allow BOSH to demote the leader node before updating
+    param: vault_step_down_token
+  - description: |
+      For zero-downtime updates individual nodes must be unsealed after updating.
+      By providing the unseal keys this will be taken care of automatically.
+      It is highly advised to rekey Vault after each update so that the unseal keys
+      don't remain exposed in the manifest
+    param: vault_unseal_keys
+    type: list
 
 credentials:
   base: {}
   vault: {}
-  nomad: {}
 
 certificates:
-  base: {}
-  vault: {}
-  nomad: {}
-
+  base:
+    certs:
+      ca: { valid_for: 10y }
+      consul:
+        valid_for: 10y
+        names:
+          - consul_peer
+          - 127.0.0.1

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while read line; do
+  for addr in ${@}; do
+    export VAULT_ADDR=${addr}
+    vault unseal ${line}
+  done
+done <&0

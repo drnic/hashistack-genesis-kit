@@ -1,1 +1,31 @@
---- {}
+---
+instance_groups:
+- name: vault
+  jobs:
+  - { release: vault, name: vault }
+  - release: consul
+    name: consul
+    consumes:
+      consul_servers: { from: consul }
+  instances: 2
+  azs: (( grab params.availability_zones ))
+  vm_type: (( grab params.vault_vm_type ))
+  stemcell: default
+  networks:
+  - name: (( grab params.hashistack_network ))
+  properties:
+    consul:
+      server: false
+
+properties:
+  vault:
+    storage:
+      use_consul: true
+    update:
+      step_down_token: (( grab params.vault_step_down_token ))
+      unseal_keys: (( grab params.vault_unseal_keys ))
+
+releases:
+- (( append ))
+- name: vault
+  version: latest
