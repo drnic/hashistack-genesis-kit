@@ -36,7 +36,7 @@ properties:
 releases:
 - name: consul
   version: 22.1.0
-  url: https://github.com/cloudfoundry-community/consul-boshrelease/releases/download/v22.1.0/consul-22.1.0.tgz
+  url: https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=22.1.0
   sha1: 80010f50b48eff61a7823b3db99a7eba3ced9908
 
 stemcells:
