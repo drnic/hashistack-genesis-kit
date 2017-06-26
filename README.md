@@ -28,4 +28,4 @@ token_policies  [step-down]
 
 Then add the token value to your deployment file under `params.vault_step_down_token`. This will cause Vault to perform a controlled failover before updating each individual node.
 
-Once the update of a node has completed it will need to be unsealed. If you add your unseal keys under `params.vault_unseal_keys` this will also be taken care of for you which will make the entire update process truely zero downtime ie. when using a consul-agent to provide dns the domain name `vault.service.consul` should always be pointing to a vault that will accept connections.
+Once the update of a node has completed it will need to be unsealed. If you add your unseal keys under `params.vault_unseal_keys` this will also be taken care of. This will make the entire update process truely zero-downtime ie. when using a consul-agent to provide dns, the domain name `vault.service.consul` should always be pointing to a vault that will accept connections. It is highly recommend to run `vault rekey` after an update where the unseal_keys were provided have taken place to not leave the keys exposed in the manifest.
