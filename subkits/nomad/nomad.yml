@@ -1,0 +1,42 @@
+---
+instance_groups:
+- name: nomad_servers
+  jobs:
+  - { release: nomad, name: nomad-server }
+  - release: consul
+    name: consul
+    consumes:
+      consul_servers: { from: consul }
+  instances: 3
+  azs: (( grab params.availability_zones ))
+  vm_type: (( grab params.nomad_server_vm_type ))
+  stemcell: default
+  networks:
+  - name: (( grab params.hashistack_network ))
+  properties:
+    nomad:
+      ssl_cert: (( vault meta.vault "/nomad/certs/server:certificate" ))
+      ssl_key: (( vault meta.vault "/nomad/certs/server:key" ))
+    consul:
+      server: false
+      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+      ssl_cert: (( vault meta.vault "/consul/certs/agent:certificate" ))
+      ssl_key: (( vault meta.vault "/consul/certs/agent:key" ))
+
+properties:
+  nomad:
+    datacenter: (( grab params.datacenter ))
+    region: (( grab params.region ))
+    encrypt: (( vault meta.vault "/nomad/encrypt:key" ))
+    ssl_ca: (( vault meta.vault "/nomad/certs/ca:certificate" ))
+    consul:
+      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+      ssl_cert: (( vault meta.vault "/consul/certs/nomad:certificate" ))
+      ssl_key: (( vault meta.vault "/consul/certs/nomad:key" ))
+
+releases:
+- (( append ))
+- name: nomad
+  version: latest
+- name: docker
+  version: latest

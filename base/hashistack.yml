@@ -1,5 +1,5 @@
 instance_groups:
-- name: servers
+- name: consul_server
   jobs:
   - release: consul
     name: consul
@@ -10,8 +10,8 @@ instance_groups:
   properties:
     consul:
       ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
-      ssl_cert: (( vault meta.vault "/consul/certs/servers:certificate" ))
-      ssl_key: (( vault meta.vault "/consul/certs/servers:key" ))
+      ssl_cert: (( vault meta.vault "/consul/certs/server:certificate" ))
+      ssl_key: (( vault meta.vault "/consul/certs/server:key" ))
 
   instances: 3
   azs: (( grab params.availability_zones ))
@@ -33,7 +33,10 @@ update:
 
 properties:
   consul:
+    datacenter: (( grab params.datacenter ))
     leave_on_terminate: true
+    verify_incoming: (( grab params.consul_verify_incoming ))
+    encrypt: (( vault meta.vault "/consul/encrypt:key" ))
 
 releases:
 - name: consul

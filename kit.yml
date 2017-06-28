@@ -7,9 +7,17 @@ homepage: https://github.com/genesis-community/hashistack-genesis-kit
 subkits:
 - prompt: Do you want to use subkit 'vault'?
   subkit: vault
+- prompt: Do you want to use subkit 'nomad'?
+  subkit: nomad
 
 params:
   base:
+  - description: The datacenter that this deployment is being deployed to
+    ask: What is the datacenter
+    param: datacenter
+  - description: The encryption key is used to encrypt the gossip between nodes and generated via 'consul keygen'
+    ask: What is the consul encryption key?
+    vault: consul/encrypt:key
   - description: The name of the BOSH network to deploy to
     param: hashistack_network
   - description: The name of the BOSH disk pool to give Consul servers
@@ -35,6 +43,14 @@ params:
     param: vault_unseal_keys
     type: list
 
+  nomad:
+  - description: The region that this deployment is being deployed to
+    ask: What is the region
+    param: region
+  - description: The encryption key is used to encrypt the gossip between nodes and generated via 'nomad keygen'
+    ask: What is the nomad encryption key?
+    vault: nomad/encrypt:key
+
 credentials:
   base: {}
   vault: {}
@@ -58,3 +74,23 @@ certificates:
         names:
         - vault.service.consul
         - 127.0.0.1
+      nomad:
+        valid_for: 10y
+        names:
+        - nomad.service.consul
+        - 127.0.0.1
+
+  nomad:
+    consul/certs:
+      ca: { valid_for: 10y }
+      servers:
+        valid_for: 10y
+        names:
+        - nomad_server
+        - 127.0.0.1
+      client:
+        valid_for: 10y
+        names:
+        - nomad_client
+        - 127.0.0.1
+

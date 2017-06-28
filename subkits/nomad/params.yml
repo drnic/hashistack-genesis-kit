@@ -1,0 +1,6 @@
+---
+params:
+  region: (( param "Please specify the region of this deployment" ))
+  nomad_server_disk_pool: server
+  nomad_server_vm_type: small
+
