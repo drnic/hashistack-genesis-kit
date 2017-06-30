@@ -15,11 +15,15 @@ params:
   - description: The datacenter that this deployment is being deployed to
     ask: What is the datacenter
     param: datacenter
+  - description: Should ssl connections be verified via the provided ca certs
+    param: verify_ssl
+  - description: How many instances should be used for the main clusters
+    param: server_instances
   - description: The encryption key is used to encrypt the gossip between nodes and generated via 'consul keygen'
     ask: What is the consul encryption key?
     vault: consul/encrypt:key
-  - description: The name of the BOSH network to deploy to
-    param: hashistack_network
+  - description: The name of the BOSH network to deploy the consul cluster to
+    param: consul_network
   - description: The name of the BOSH disk pool to give Consul servers
     param: consul_disk_pool
   - description: The name of the BOSH VM type for the Consul servers
@@ -42,6 +46,12 @@ params:
       don't remain exposed in the manifest
     param: vault_unseal_keys
     type: list
+  - description: The name of the BOSH network to deploy Vault to
+    param: vault_network
+  - description: The name of the BOSH disk pool to give Vault servers
+    param: vault_disk_pool
+  - description: The name of the BOSH VM type for the Vault servers
+    param: vault_vm_type
 
   nomad:
   - description: The region that this deployment is being deployed to
@@ -50,6 +60,21 @@ params:
   - description: The encryption key is used to encrypt the gossip between nodes and generated via 'nomad keygen'
     ask: What is the nomad encryption key?
     vault: nomad/encrypt:key
+  - description: The name of the BOSH network to deploy the Nomad servers to
+    param: nomad_server_network
+  - description: The name of the BOSH disk pool to give Nomad servers
+    param: nomad_server_disk_pool
+  - description: The name of the BOSH VM type for the Nomad servers
+    param: nomad_server_vm_type
+  - description: The name of the BOSH network to deploy the private Nomad nodes to
+    param: nomad_private_network
+  - description: The name of the BOSH disk pool to give private Nomad nodes
+    param: nomad_private_disk_pool
+  - description: The name of the BOSH VM type for the private Nomad nodes
+    param: nomad_private_vm_type
+  - description: The number of private Nomad node instances
+    param: nomad_private_instances
+
 
 credentials:
   base: {}
@@ -59,7 +84,7 @@ certificates:
   base:
     consul/certs:
       ca: { valid_for: 10y }
-      servers:
+      server:
         valid_for: 10y
         names:
         - consul_peer
@@ -81,16 +106,25 @@ certificates:
         - 127.0.0.1
 
   nomad:
-    consul/certs:
+    nomad/certs:
       ca: { valid_for: 10y }
-      servers:
+      server:
         valid_for: 10y
         names:
-        - nomad_server
+        - "server.${params.region}.nomad"
+        - localhost
         - 127.0.0.1
       client:
         valid_for: 10y
         names:
-        - nomad_client
+        - "client.${params.region}.nomad"
+        - localhost
         - 127.0.0.1
-
+    docker/certs:
+      ca: { valid_for: 10y }
+      daemon:
+        valid_for: 10y
+        names:
+        - docker_daemon
+        - localhost
+        - 127.0.0.1

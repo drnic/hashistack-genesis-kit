@@ -1,6 +1,12 @@
 ---
 params:
   region: (( param "Please specify the region of this deployment" ))
+
+  nomad_server_network: nomad_server_network
   nomad_server_disk_pool: server
   nomad_server_vm_type: small
 
+  nomad_private_network: nomad_private_network
+  nomad_private_disk_pool: node
+  nomad_private_vm_type: node
+  nomad_private_instances: 3

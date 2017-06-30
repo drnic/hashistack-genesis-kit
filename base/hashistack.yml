@@ -9,17 +9,17 @@ instance_groups:
       consul_servers: { from: consul }
   properties:
     consul:
-      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+      server: true
       ssl_cert: (( vault meta.vault "/consul/certs/server:certificate" ))
       ssl_key: (( vault meta.vault "/consul/certs/server:key" ))
 
-  instances: 3
+  instances: (( grab params.server_instances ))
   azs: (( grab params.availability_zones ))
   persistent_disk_pool: (( grab params.consul_disk_pool ))
   vm_type: (( grab params.consul_vm_type ))
   stemcell: default
   networks:
-  - name: (( grab params.hashistack_network ))
+  - name: (( grab params.consul_network ))
 
 meta:
   vault: (( concat "secret/" params.vault ))
@@ -33,16 +33,20 @@ update:
 
 properties:
   consul:
+    server: false
+    ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
+    ssl_cert: (( vault meta.vault "/consul/certs/agent:certificate" ))
+    ssl_key: (( vault meta.vault "/consul/certs/agent:key" ))
     datacenter: (( grab params.datacenter ))
     leave_on_terminate: true
-    verify_incoming: (( grab params.consul_verify_incoming ))
+    verify_incoming: (( grab params.verify_ssl ))
     encrypt: (( vault meta.vault "/consul/encrypt:key" ))
 
 releases:
 - name: consul
-  version: 23.0.0
-  url: "https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=23.0.0"
-  sha1: 7ae648b284c92140b6aea44d0098b2e3ca3e5aa2
+  version: 23.0.1
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=23.0.1"
+  sha1: 04bbe700885bf1cfa774d6454058e4885fb142f3
 
 stemcells:
 - os: (( grab params.stemcell_os ))

@@ -1,12 +1,12 @@
 ---
 params:
   datacenter: (( param "Please specify the datacenter for this deployment" ))
+  verify_ssl: true
+  server_instances: 5
 
-  hashistack_network:   hashistack-network
+  consul_network:   consul_network
   consul_disk_pool: server
   consul_vm_type:   small
-
-  consul_verify_incoming: true
 
   availability_zones: [z1, z2, z3]
 

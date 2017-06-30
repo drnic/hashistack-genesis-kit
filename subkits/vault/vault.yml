@@ -12,13 +12,7 @@ instance_groups:
   vm_type: (( grab params.vault_vm_type ))
   stemcell: default
   networks:
-  - name: (( grab params.hashistack_network ))
-  properties:
-    consul:
-      server: false
-      ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
-      ssl_cert: (( vault meta.vault "/consul/certs/agent:certificate" ))
-      ssl_key: (( vault meta.vault "/consul/certs/agent:key" ))
+  - name: (( grab params.vault_network ))
 
 properties:
   vault:
