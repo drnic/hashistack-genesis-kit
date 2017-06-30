@@ -18,6 +18,24 @@ instance_groups:
       ssl_cert: (( vault meta.vault "/nomad/certs/server:certificate" ))
       ssl_key: (( vault meta.vault "/nomad/certs/server:key" ))
 
+- name: public_node
+  jobs:
+  - { release: nomad, name: nomad-client }
+  - { release: docker, name: docker }
+  - release: consul
+    name: consul
+    consumes:
+      consul_servers: { from: consul }
+  instances: (( grab params.nomad_public_instances ))
+  azs: (( grab params.availability_zones ))
+  vm_type: (( grab params.nomad_public_vm_type ))
+  stemcell: default
+  networks:
+  - name: (( grab params.nomad_public_network ))
+  properties:
+    nomad:
+      node_class: public
+
 - name: private_node
   jobs:
   - { release: nomad, name: nomad-client }
@@ -35,19 +53,19 @@ instance_groups:
   properties:
     nomad:
       node_class: private
-      ssl_cert: (( vault meta.vault "/nomad/certs/client:certificate" ))
-      ssl_key: (( vault meta.vault "/nomad/certs/client:key" ))
-    # For docker
-    tls_cacert: (( vault meta.vault "/docker/certs/ca:certificate" ))
-    tls_cert: (( vault meta.vault "/docker/certs/daemon:certificate" ))
-    tls_key: (( vault meta.vault "/docker/certs/daemon:key" ))
 
 properties:
+  # For docker
+  tls_cacert: (( vault meta.vault "/docker/certs/ca:certificate" ))
+  tls_cert: (( vault meta.vault "/docker/certs/daemon:certificate" ))
+  tls_key: (( vault meta.vault "/docker/certs/daemon:key" ))
   nomad:
     datacenter: (( grab params.datacenter ))
     region: (( grab params.region ))
     encrypt: (( vault meta.vault "/nomad/encrypt:key" ))
     ssl_ca: (( vault meta.vault "/nomad/certs/ca:certificate" ))
+    ssl_cert: (( vault meta.vault "/nomad/certs/client:certificate" ))
+    ssl_key: (( vault meta.vault "/nomad/certs/client:key" ))
     verify_server_hostname: (( grab params.verify_ssl ))
     consul:
       ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))

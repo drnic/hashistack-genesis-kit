@@ -10,3 +10,8 @@ params:
   nomad_private_disk_pool: node
   nomad_private_vm_type: node
   nomad_private_instances: 3
+
+  nomad_public_network: nomad_public_network
+  nomad_public_disk_pool: node
+  nomad_public_vm_type: node
+  nomad_public_instances: 3
