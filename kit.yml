@@ -74,14 +74,14 @@ params:
     param: nomad_private_vm_type
   - description: The number of private Nomad node instances
     param: nomad_private_instances
-  - description: The name of the BOSH network to deploy the public Nomad nodes to
-    param: nomad_public_network
-  - description: The name of the BOSH disk pool to give public Nomad nodes
-    param: nomad_public_disk_pool
-  - description: The name of the BOSH VM type for the public Nomad nodes
-    param: nomad_public_vm_type
-  - description: The number of public Nomad node instances
-    param: nomad_public_instances
+  - description: The name of the BOSH network to deploy the edge Nomad nodes to
+    param: nomad_edge_network
+  - description: The name of the BOSH disk pool to give edge Nomad nodes
+    param: nomad_edge_disk_pool
+  - description: The name of the BOSH VM type for the edge Nomad nodes
+    param: nomad_edge_vm_type
+  - description: The number of edge Nomad node instances
+    param: nomad_edge_instances
 
 
 credentials:

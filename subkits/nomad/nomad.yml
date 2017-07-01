@@ -18,7 +18,7 @@ instance_groups:
       ssl_cert: (( vault meta.vault "/nomad/certs/server:certificate" ))
       ssl_key: (( vault meta.vault "/nomad/certs/server:key" ))
 
-- name: public_node
+- name: edge_node
   jobs:
   - { release: nomad, name: nomad-client }
   - { release: docker, name: docker }
@@ -26,12 +26,12 @@ instance_groups:
     name: consul
     consumes:
       consul_servers: { from: consul }
-  instances: (( grab params.nomad_public_instances ))
+  instances: (( grab params.nomad_edge_instances ))
   azs: (( grab params.availability_zones ))
-  vm_type: (( grab params.nomad_public_vm_type ))
+  vm_type: (( grab params.nomad_edge_vm_type ))
   stemcell: default
   networks:
-  - name: (( grab params.nomad_public_network ))
+  - name: (( grab params.nomad_edge_network ))
   properties:
     nomad:
       node_class: public
