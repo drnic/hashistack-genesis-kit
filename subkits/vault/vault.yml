@@ -35,6 +35,6 @@ properties:
 releases:
 - (( append ))
 - name: vault
-  version: 0.6.0
-  url: "https://bosh.io/d/github.com/cloudfoundry-community/vault-boshrelease?v=0.6.0"
-  sha1: 67a1a46f95c73a25ab3590fdaf244e3b29835b83
+  version: 0.6.1
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/vault-boshrelease?v=0.6.1"
+  sha1: 782ee350768205867fb2dead6b8e6d7e07f1f971
