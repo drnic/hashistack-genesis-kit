@@ -30,8 +30,6 @@ params:
     param: consul_vm_type
 
   vault:
-  - description: The name of the BOSH VM type for Vault to use
-    param: vault_vm_type
   - description: |
       For zero-downtime updates provide a token with the policy
       path "sys/step-down" {
