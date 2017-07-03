@@ -46,8 +46,6 @@ params:
     type: list
   - description: The name of the BOSH network to deploy Vault to
     param: vault_network
-  - description: The name of the BOSH disk pool to give Vault servers
-    param: vault_disk_pool
   - description: The name of the BOSH VM type for the Vault servers
     param: vault_vm_type
 
