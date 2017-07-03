@@ -37,4 +37,4 @@ releases:
 - name: vault
   version: 0.6.1
   url: "https://bosh.io/d/github.com/cloudfoundry-community/vault-boshrelease?v=0.6.1"
-  sha1: 782ee350768205867fb2dead6b8e6d7e07f1f971
+  sha1: 9f1bc371b5c1b7faadca97b892d6cc6d3c6baea6
