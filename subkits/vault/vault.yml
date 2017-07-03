@@ -16,6 +16,9 @@ instance_groups:
 
 properties:
   vault:
+    tls:
+      certificate: (( vault meta.vault "/vault/certs/server:combined" ))
+      key: (( vault meta.vault "/vault/certs/server:key" ))
     storage:
       use_consul: true
       consul:

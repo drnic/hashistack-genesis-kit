@@ -113,6 +113,15 @@ certificates:
         - nomad.service.consul
         - 127.0.0.1
 
+  vault:
+    vault/certs:
+      ca: { valid_for: 10y }
+      server:
+        valid_for: 10y
+        names:
+        - vault.service.consul
+        - 127.0.0.1
+
   nomad:
     nomad/certs:
       ca: { valid_for: 10y }
