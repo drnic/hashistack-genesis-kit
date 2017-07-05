@@ -1,0 +1,37 @@
+---
+azs:
+- name: z1
+- name: z2
+- name: z3
+
+vm_types:
+- name: server
+- name: node
+- name: compilation
+
+disk_types:
+- name: server
+  disk_size: 3200
+- name: node
+  disk_size: 3200
+
+networks:
+- name: servers
+  type: manual
+  subnets:
+  - range: 10.244.1.0/24
+    gateway: 10.244.1.1
+    azs: [z1, z2, z3]
+- name: nodes
+  type: manual
+  subnets:
+  - range: 10.244.2.0/24
+    gateway: 10.244.2.1
+    azs: [z1, z2, z3]
+
+compilation:
+  workers: 4
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: compilation
+  network: servers
