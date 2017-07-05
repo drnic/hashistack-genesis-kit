@@ -44,9 +44,10 @@ properties:
 
 releases:
 - name: consul
-  version: 23.0.1
-  url: "https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=23.0.1"
-  sha1: 04bbe700885bf1cfa774d6454058e4885fb142f3
+  version: latest
+  version: 23.0.2
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/consul-boshrelease?v=23.0.2"
+  sha1: 641c66420a2adf9d6613d3d17c9bd3c27ec12fb6
 
 stemcells:
 - os: (( grab params.stemcell_os ))
