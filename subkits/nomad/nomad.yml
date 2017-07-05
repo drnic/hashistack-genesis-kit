@@ -1,64 +1,39 @@
 ---
 instance_groups:
-- name: nomad_server
+- name: server
   jobs:
+  - (( append ))
   - { release: nomad, name: nomad-server }
-  - release: consul
-    name: consul
-    consumes:
-      consul_servers: { from: consul }
-  instances: (( grab params.server_instances ))
-  azs: (( grab params.availability_zones ))
-  vm_type: (( grab params.nomad_server_vm_type ))
-  stemcell: default
-  networks:
-  - name: (( grab params.nomad_server_network ))
   properties:
     nomad:
       ssl_cert: (( vault meta.vault "/nomad/certs/server:certificate" ))
       ssl_key: (( vault meta.vault "/nomad/certs/server:key" ))
 
-- name: edge_node
+- name: node
   jobs:
-  - { release: nomad, name: nomad-client }
   - { release: docker, name: docker }
+  - { release: nomad, name: traefik }
+  - { release: nomad, name: nomad-client }
   - release: consul
     name: consul
     consumes:
       consul_servers: { from: consul }
-  instances: (( grab params.nomad_edge_instances ))
+  instances: (( grab params.node_instances ))
   azs: (( grab params.availability_zones ))
-  vm_type: (( grab params.nomad_edge_vm_type ))
+  vm_type: (( grab params.node_vm_type ))
   stemcell: default
   networks:
-  - name: (( grab params.nomad_edge_network ))
+  - name: (( grab params.node_network ))
   properties:
-    nomad:
-      node_class: public
-
-- name: private_node
-  jobs:
-  - { release: nomad, name: nomad-client }
-  - { release: docker, name: docker }
-  - release: consul
-    name: consul
-    consumes:
-      consul_servers: { from: consul }
-  instances: (( grab params.nomad_private_instances ))
-  azs: (( grab params.availability_zones ))
-  vm_type: (( grab params.nomad_private_vm_type ))
-  stemcell: default
-  networks:
-  - name: (( grab params.nomad_private_network ))
-  properties:
-    nomad:
-      node_class: private
+    # For docker
+    tls_cacert: (( vault meta.vault "/docker/certs/ca:certificate" ))
+    tls_cert: (( vault meta.vault "/docker/certs/daemon:certificate" ))
+    tls_key: (( vault meta.vault "/docker/certs/daemon:key" ))
+    traefik:
+      ssl_cert: (( vault meta.vault "/traefik/certs/server:certificate" ))
+      ssl_key: (( vault meta.vault "/traefik/certs/server:key" ))
 
 properties:
-  # For docker
-  tls_cacert: (( vault meta.vault "/docker/certs/ca:certificate" ))
-  tls_cert: (( vault meta.vault "/docker/certs/daemon:certificate" ))
-  tls_key: (( vault meta.vault "/docker/certs/daemon:key" ))
   nomad:
     datacenter: (( grab params.datacenter ))
     region: (( grab params.region ))
@@ -71,6 +46,12 @@ properties:
       ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
       ssl_cert: (( vault meta.vault "/consul/certs/nomad:certificate" ))
       ssl_key: (( vault meta.vault "/consul/certs/nomad:key" ))
+    vault:
+      ssl_ca: (( vault meta.vault "/vault/certs/ca:certificate" ))
+      ssl_cert: (( vault meta.vault "/vault/certs/nomad:certificate" ))
+      ssl_key: (( vault meta.vault "/vault/certs/nomad:key" ))
+      create_from_role: (( grab params.nomad_vault_role ))
+      token: (( vault meta.vault "/nomad/vault:token" ))
 
 releases:
 - (( append ))

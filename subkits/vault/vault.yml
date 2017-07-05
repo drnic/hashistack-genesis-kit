@@ -1,18 +1,9 @@
 ---
 instance_groups:
-- name: vault
+- name: server
   jobs:
+  - (( append ))
   - { release: vault, name: vault }
-  - release: consul
-    name: consul
-    consumes:
-      consul_servers: { from: consul }
-  instances: 2
-  azs: (( grab params.availability_zones ))
-  vm_type: (( grab params.vault_vm_type ))
-  stemcell: default
-  networks:
-  - name: (( grab params.vault_network ))
 
 properties:
   vault:

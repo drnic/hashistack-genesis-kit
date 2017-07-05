@@ -22,12 +22,12 @@ params:
   - description: The encryption key is used to encrypt the gossip between nodes and generated via 'consul keygen'
     ask: What is the consul encryption key?
     vault: consul/encrypt:key
-  - description: The name of the BOSH network to deploy the consul cluster to
-    param: consul_network
-  - description: The name of the BOSH disk pool to give Consul servers
-    param: consul_disk_pool
-  - description: The name of the BOSH VM type for the Consul servers
-    param: consul_vm_type
+  - description: The name of the BOSH network to deploy the servers to
+    param: server_network
+  - description: The name of the BOSH disk pool to give servers
+    param: server_disk_poll
+  - description: The name of the BOSH VM type for the servers
+    param: server_vm_type
 
   vault:
   - description: |
@@ -44,10 +44,6 @@ params:
       don't remain exposed in the manifest
     param: vault_unseal_keys
     type: list
-  - description: The name of the BOSH network to deploy Vault to
-    param: vault_network
-  - description: The name of the BOSH VM type for the Vault servers
-    param: vault_vm_type
 
   nomad:
   - description: The region that this deployment is being deployed to
@@ -56,33 +52,22 @@ params:
   - description: The encryption key is used to encrypt the gossip between nodes and generated via 'nomad keygen'
     ask: What is the nomad encryption key?
     vault: nomad/encrypt:key
-  - description: The name of the BOSH network to deploy the Nomad servers to
-    param: nomad_server_network
-  - description: The name of the BOSH disk pool to give Nomad servers
-    param: nomad_server_disk_pool
-  - description: The name of the BOSH VM type for the Nomad servers
-    param: nomad_server_vm_type
-  - description: The name of the BOSH network to deploy the private Nomad nodes to
-    param: nomad_private_network
-  - description: The name of the BOSH disk pool to give private Nomad nodes
-    param: nomad_private_disk_pool
-  - description: The name of the BOSH VM type for the private Nomad nodes
-    param: nomad_private_vm_type
-  - description: The number of private Nomad node instances
-    param: nomad_private_instances
-  - description: The name of the BOSH network to deploy the edge Nomad nodes to
-    param: nomad_edge_network
-  - description: The name of the BOSH disk pool to give edge Nomad nodes
-    param: nomad_edge_disk_pool
-  - description: The name of the BOSH VM type for the edge Nomad nodes
-    param: nomad_edge_vm_type
-  - description: The number of edge Nomad node instances
-    param: nomad_edge_instances
+  - description: The name of the BOSH network to deploy the Nomad nodes to
+    param: node_network
+  - description: The name of the BOSH disk pool to give Nomad nodes
+    param: node_disk_pool
+  - description: The name of the BOSH VM type for the Nomad nodes
+    param: node_vm_type
+  - description: The number of Nomad node instances
+    param: node_instances
 
 
 credentials:
   base: {}
   vault: {}
+  nomad:
+    nomad/vault:
+      token: random 5 fixed
 
 certificates:
   base:
@@ -92,21 +77,25 @@ certificates:
         valid_for: 10y
         names:
         - consul_peer
+        - localhost
         - 127.0.0.1
       agent:
         valid_for: 10y
         names:
         - consul_agent
+        - localhost
         - 127.0.0.1
       vault:
         valid_for: 10y
         names:
         - vault.service.consul
+        - localhost
         - 127.0.0.1
       nomad:
         valid_for: 10y
         names:
         - nomad.service.consul
+        - localhost
         - 127.0.0.1
 
   vault:
@@ -117,20 +106,33 @@ certificates:
         names:
         - vault.service.consul
         - 127.0.0.1
+      nomad:
+        valid_for: 10y
+        names:
+        - nomad.service.consul
+        - 127.0.0.1
 
   nomad:
+    traefik/certs:
+      ca: { valid_for: 10y }
+      server:
+        valid_for: 10y
+        names:
+        - traefik.service.consul
     nomad/certs:
       ca: { valid_for: 10y }
       server:
         valid_for: 10y
         names:
         - "server.${params.region}.nomad"
+        - nomad.service.consul
         - localhost
         - 127.0.0.1
       client:
         valid_for: 10y
         names:
         - "client.${params.region}.nomad"
+        - nomad.service.consul
         - localhost
         - 127.0.0.1
     docker/certs:

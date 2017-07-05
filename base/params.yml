@@ -2,11 +2,11 @@
 params:
   datacenter: (( param "Please specify the datacenter for this deployment" ))
   verify_ssl: true
-  server_instances: 5
+  server_instances: 3
 
-  consul_network:   consul_network
-  consul_disk_pool: server
-  consul_vm_type:   small
+  server_network:   servers
+  server_disk_pool: server
+  server_vm_type:   server
 
   availability_zones: [z1, z2, z3]
 

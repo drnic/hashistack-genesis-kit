@@ -2,16 +2,9 @@
 params:
   region: (( param "Please specify the region of this deployment" ))
 
-  nomad_server_network: nomad_server_network
-  nomad_server_disk_pool: server
-  nomad_server_vm_type: small
+  nomad_vault_role: nomad-cluster
 
-  nomad_private_network: nomad_private_network
-  nomad_private_disk_pool: node
-  nomad_private_vm_type: node
-  nomad_private_instances: 3
-
-  nomad_edge_network: nomad_edge_network
-  nomad_edge_disk_pool: node
-  nomad_edge_vm_type: node
-  nomad_edge_instances: 3
+  node_network: nodes
+  node_disk_pool: node
+  node_vm_type: node
+  node_instances: 3
