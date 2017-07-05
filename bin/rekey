@@ -1,13 +1,14 @@
 #!/bin/bash
 
-none=""
+nonce=""
 while read line; do
-    vault rekey ${nonce} ${line} > keys.txt
-   if cat keys.txt | grep 'Nonce' >/dev/null; then
-     nonce="-nonce $(cat keys.txt | grep 'Nonce'  | sed 's/Nonce: //')"
-   else
-     cat keys.txt
-     rm -rf keys.txt
-     exit 0
-   fi
+  line=$(echo ${line} | sed 's/Unseal Key .: //')
+  vault rekey ${nonce} ${line} > rekey.txt
+  if cat rekey.txt | grep 'Nonce' >/dev/null; then
+    nonce="-nonce $(cat rekey.txt | grep 'Nonce'  | sed 's/Nonce: //')"
+  else
+   cat rekey.txt
+   rm -rf rekey.txt
+   exit 0
+  fi
 done <&0
