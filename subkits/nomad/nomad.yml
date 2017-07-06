@@ -45,7 +45,7 @@ properties:
     job_gc_threshold: "30m"
     datacenter: (( grab params.datacenter ))
     region: (( grab params.region ))
-    encrypt: (( vault meta.vault "/nomad/encrypt:key" ))
+    encrypt: (( vault meta.vault "/nomad/encrypt:key-base64" ))
     ssl_ca: (( vault meta.vault "/nomad/certs/ca:certificate" ))
     ssl_cert: (( vault meta.vault "/nomad/certs/client:certificate" ))
     ssl_key: (( vault meta.vault "/nomad/certs/client:key" ))

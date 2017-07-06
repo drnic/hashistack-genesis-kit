@@ -40,7 +40,7 @@ properties:
     datacenter: (( grab params.datacenter ))
     leave_on_terminate: true
     verify_incoming: (( grab params.verify_ssl ))
-    encrypt: (( vault meta.vault "/consul/encrypt:key" ))
+    encrypt: (( vault meta.vault "/consul/encrypt:key-base64" ))
 
 releases:
 - name: consul

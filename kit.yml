@@ -19,13 +19,10 @@ params:
     param: verify_ssl
   - description: How many instances should be used for the main clusters
     param: server_instances
-  - description: The encryption key is used to encrypt the gossip between nodes and generated via 'consul keygen'
-    ask: What is the consul encryption key?
-    vault: consul/encrypt:key
   - description: The name of the BOSH network to deploy the servers to
     param: server_network
-  - description: The name of the BOSH disk pool to give servers
-    param: server_disk_poll
+  - description: The name of the BOSH disk type to give servers
+    param: server_disk_type
   - description: The name of the BOSH VM type for the servers
     param: server_vm_type
 
@@ -49,9 +46,6 @@ params:
   - description: The region that this deployment is being deployed to
     ask: What is the region
     param: region
-  - description: The encryption key is used to encrypt the gossip between nodes and generated via 'nomad keygen'
-    ask: What is the nomad encryption key?
-    vault: nomad/encrypt:key
   - description: The name of the BOSH network to deploy the Nomad nodes to
     param: node_network
   - description: The name of the BOSH disk type to give Nomad nodes
@@ -63,9 +57,13 @@ params:
 
 
 credentials:
-  base: {}
+  base:
+    consul/encrypt:
+      key: random 16 fmt base64
   vault: {}
   nomad:
+    nomad/encrypt:
+      key: random 16 fmt base64
     nomad/vault:
       token: random 5 fixed
 
