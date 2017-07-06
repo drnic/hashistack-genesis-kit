@@ -5,7 +5,7 @@ params:
   server_instances: 3
 
   server_network:   servers
-  server_disk_pool: server
+  server_disk_type: server
   server_vm_type:   server
 
   availability_zones: [z1, z2, z3]

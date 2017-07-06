@@ -15,7 +15,7 @@ instance_groups:
 
   instances: (( grab params.server_instances ))
   azs: (( grab params.availability_zones ))
-  persistent_disk_pool: (( grab params.server_disk_pool ))
+  persistent_disk_type: (( grab params.server_disk_type ))
   vm_type: (( grab params.server_vm_type ))
   stemcell: default
   networks:

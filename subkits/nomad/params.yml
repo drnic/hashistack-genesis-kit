@@ -5,6 +5,6 @@ params:
   nomad_vault_role: nomad-cluster
 
   node_network: nodes
-  node_disk_pool: node
+  node_disk_type: node
   node_vm_type: node
   node_instances: 3
