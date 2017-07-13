@@ -59,11 +59,11 @@ params:
 credentials:
   base:
     consul/encrypt:
-      key: random 16 fmt base64
+      key: random 16 fmt base64 fixed
   vault: {}
   nomad:
     nomad/encrypt:
-      key: random 16 fmt base64
+      key: random 16 fmt base64 fixed
     nomad/vault:
       token: random 5 fixed
 
