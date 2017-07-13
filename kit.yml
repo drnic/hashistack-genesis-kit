@@ -74,13 +74,13 @@ certificates:
       server:
         valid_for: 10y
         names:
-        - consul_peer
+        - consul.service.consul
         - localhost
         - 127.0.0.1
       agent:
         valid_for: 10y
         names:
-        - consul_agent
+        - consul.service.consul
         - localhost
         - 127.0.0.1
       vault:
