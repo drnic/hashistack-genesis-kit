@@ -62,6 +62,8 @@ credentials:
       key: random 16 fmt base64 fixed
   vault: {}
   nomad:
+    traefik/admin:
+      password: random 16 fmt bcrypt
     nomad/encrypt:
       key: random 16 fmt base64 fixed
     nomad/vault:

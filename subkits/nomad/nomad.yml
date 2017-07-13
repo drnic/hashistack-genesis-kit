@@ -1,4 +1,7 @@
 ---
+meta:
+  traefik_password: (( vault meta.vault "/traefik/admin:password-bcrypt" ))
+
 instance_groups:
 - name: server
   jobs:
@@ -39,6 +42,10 @@ instance_groups:
       ssl_key: (( vault meta.vault "/traefik/certs/server:key" ))
 
 properties:
+  traefik:
+    admin:
+      users:
+      - (( concat "admin:" meta.traefik_password ))
   nomad:
     max_kill_timeout: 30
     node_gc_threshold: "30m"
