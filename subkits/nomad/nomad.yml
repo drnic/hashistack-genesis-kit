@@ -25,6 +25,7 @@ instance_groups:
   azs: (( grab params.availability_zones ))
   vm_type: (( grab params.node_vm_type ))
   persistent_disk_type: (( grab params.node_disk_type ))
+  vm_extensions: (( grab params.node_vm_extensions ))
   stemcell: default
   networks:
   - name: (( grab params.node_network ))

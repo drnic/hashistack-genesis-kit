@@ -52,6 +52,8 @@ params:
     param: node_disk_type
   - description: The name of the BOSH VM type for the Nomad nodes
     param: node_vm_type
+  - description: The vm_extensions to apply to the node instance_group (usefull for attaching a load balancer)
+    param: node_vm_extensions
   - description: The number of Nomad node instances
     param: node_instances
 

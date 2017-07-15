@@ -7,4 +7,5 @@ params:
   node_network: nodes
   node_disk_type: node
   node_vm_type: node
+  node_vm_extensions: []
   node_instances: 3
