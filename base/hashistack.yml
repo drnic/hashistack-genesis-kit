@@ -33,6 +33,7 @@ update:
 
 properties:
   consul:
+    resolvconf_override: (( grab params.resolvconf_override ))
     server: false
     ssl_ca: (( vault meta.vault "/consul/certs/ca:certificate" ))
     ssl_cert: (( vault meta.vault "/consul/certs/agent:certificate" ))

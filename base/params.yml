@@ -3,6 +3,7 @@ params:
   datacenter: (( param "Please specify the datacenter for this deployment" ))
   verify_ssl: true
   server_instances: 3
+  resolvconf_override: true
 
   server_network:   servers
   server_disk_type: server
