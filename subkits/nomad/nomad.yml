@@ -9,6 +9,8 @@ instance_groups:
   - { release: nomad, name: nomad-server }
   properties:
     nomad:
+      vault:
+        address: https://127.0.0.1:8200
       ssl_cert: (( vault meta.vault "/nomad/certs/server:certificate" ))
       ssl_key: (( vault meta.vault "/nomad/certs/server:key" ))
 
