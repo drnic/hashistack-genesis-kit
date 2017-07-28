@@ -5,9 +5,9 @@ params:
   server_instances: 3
   resolvconf_override: true
 
-  server_network:   servers
-  server_disk_type: server
-  server_vm_type:   server
+  server_network:   default
+  server_disk_type: default
+  server_vm_type:   default
 
   availability_zones: [z1, z2, z3]
 
